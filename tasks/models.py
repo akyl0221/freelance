@@ -1,4 +1,6 @@
 from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 from django.contrib.auth import get_user_model
 
 
@@ -20,3 +22,7 @@ class Task(models.Model):
     def __str__(self):
         return self.title
 
+
+@receiver(post_save, sender=Task)
+def task_post_save(sender, instance, **kwargs):
+    instance.created_by.update_balance(instance.price)
