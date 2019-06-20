@@ -1,12 +1,13 @@
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
 from django.contrib.auth import get_user_model , authenticate, login
 
 from rest_framework import generics, status, views
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from .serializers import UserCreateSerializer, CustomUserSerializer, UserLoginSerializer
-
+from .serializers import UserCreateSerializer, CustomUserSerializer, UserLoginSerializer, UserChangeBalanceSerializer
+from .models import UserChangeBalance
 
 User = get_user_model()
 
@@ -47,6 +48,22 @@ class UserDetailView(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = CustomUserSerializer
     permission_classes = (IsAuthenticated,)
+
+
+class UserChangeBalanceCreateView(generics.CreateAPIView):
+    serializer_class = UserChangeBalanceSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        return HttpResponseRedirect('blahblahblah')
+
+class UserChangeBalanceListView(generics.ListAPIView):
+    serializer_class = UserChangeBalanceSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        user = self.kwargs['id']
+        return UserChangeBalance.objects.filter(user=user)
 
 
 def index(request):

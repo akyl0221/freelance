@@ -29,3 +29,27 @@ class CustomUser(AbstractUser):
                 role=CustomUser.EXECUTOR).update(
                 balance=F('balance') + balance
             )
+
+
+class UserChangeBalance(models.Model):
+    REPLENISH = 1
+    WITHDRAWAL = 2
+    PAY_WORK = 3
+
+    CHOICES = (
+        (REPLENISH, 'Replenish'),
+        (WITHDRAWAL, 'Withdrawal'),
+        (PAY_WORK, 'payment for work'),
+    )
+
+    user = models.ForeignKey('CustomUser', related_name='balance_changes', on_delete=models.CASCADE)
+    reason = models.PositiveSmallIntegerField(choices=CHOICES, default=REPLENISH)
+    amount = models.DecimalField('Amount', default=0, max_digits=18, decimal_places=6)
+    datetime = models.DateTimeField(auto_now_add=True)
+
+
+
+
+
+
+
