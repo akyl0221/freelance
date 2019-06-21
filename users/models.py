@@ -51,8 +51,8 @@ class UserChangeBalance(models.Model):
         (TRANSACTION, 'Transaction'),
     )
 
-    from_user = models.ForeignKey(
-        'CustomUser', related_name='from_user',
+    user = models.ForeignKey(
+        'CustomUser', related_name='balance_changes',
         on_delete=models.CASCADE
     )
     to_user = models.ForeignKey(
@@ -66,7 +66,7 @@ class UserChangeBalance(models.Model):
 
 @receiver(post_save, sender=UserChangeBalance)
 def balance_post_save(sender, instance, **kwargs):
-    instance.user.update_balance(instance.amount, instance.reason, instance.from_user, instance.to_user)
+    instance.user.update_balance(instance.amount, instance.reason, instance.user, instance.to_user)
 
 
 

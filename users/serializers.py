@@ -34,5 +34,5 @@ class UserChangeBalanceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserChangeBalance
-        fields = ('id', 'from_user', 'reason', 'amount', 'datetime', 'to_user')
+        fields = ('id', 'user', 'reason', 'amount', 'datetime', 'to_user')
 

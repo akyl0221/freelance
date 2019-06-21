@@ -8,7 +8,7 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 
 class UserChangeBalanceAdmin(admin.ModelAdmin):
-    list_display = ('from_user', 'reason', 'amount', 'datetime', 'to_user')
+    list_display = ('user', 'reason', 'amount', 'datetime', 'to_user')
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
