@@ -54,9 +54,11 @@ class UserChangeBalanceCreateView(generics.CreateAPIView):
 
 
 class UserChangeBalanceListView(generics.ListAPIView):
-    queryset = UserChangeBalance.objects.all()
     serializer_class = UserChangeBalanceSerializer
     permission_classes = (IsAuthenticated,)
 
+    def get_queryset(self):
+        user = self.request.user
+        return UserChangeBalance.objects.filter(user=user.id)
 
 
