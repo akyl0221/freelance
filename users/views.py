@@ -1,5 +1,3 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
 from django.contrib.auth import get_user_model , authenticate, login
 
 from rest_framework import generics, status, views
@@ -19,7 +17,7 @@ class UserCreateView(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-            user = User.objects.create_user(**serializer.validated_data)
+            User.objects.create_user(**serializer.validated_data)
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -55,8 +53,6 @@ class UserChangeBalanceCreateView(generics.CreateAPIView):
     permission_classes = (IsAuthenticated,)
 
 
-
-
 class UserChangeBalanceListView(generics.ListAPIView):
     queryset = UserChangeBalance.objects.all()
     serializer_class = UserChangeBalanceSerializer
@@ -64,5 +60,3 @@ class UserChangeBalanceListView(generics.ListAPIView):
 
 
 
-def index(request):
-    return render(request, "index.html")
