@@ -54,16 +54,14 @@ class UserChangeBalanceCreateView(generics.CreateAPIView):
     serializer_class = UserChangeBalanceSerializer
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request, *args, **kwargs):
-        return HttpResponseRedirect('blahblahblah')
+
+
 
 class UserChangeBalanceListView(generics.ListAPIView):
+    queryset = UserChangeBalance.objects.all()
     serializer_class = UserChangeBalanceSerializer
     permission_classes = (IsAuthenticated,)
 
-    def get_queryset(self):
-        user = self.kwargs['id']
-        return UserChangeBalance.objects.filter(user=user)
 
 
 def index(request):

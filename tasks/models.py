@@ -23,7 +23,4 @@ class Task(models.Model):
         return self.title
 
 
-@receiver(post_save, sender=Task)
-def task_post_save(sender, instance, **kwargs):
-    instance.created_by.update_balance(instance.price)
 

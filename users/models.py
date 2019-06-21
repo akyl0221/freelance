@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models, transaction
 from django.db.models import F
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 
 class CustomUser(AbstractUser):
@@ -14,21 +16,21 @@ class CustomUser(AbstractUser):
 
     role = models.PositiveSmallIntegerField(choices=ROLE, default=CUSTOMER)
 
-    balance = models.DecimalField('balance', max_digits=10, decimal_places=1, null=True, blank=True)
+    balance = models.DecimalField('balance', max_digits=10, decimal_places=1, null=True, blank=True, default=0)
     
     def __str__(self):
         return self.email
 
-    def update_balance(self, balance):
+    def update_balance(self, balance, reason):
         with transaction.atomic():
-            CustomUser.objects.select_for_update().filter(
-                role=CustomUser.CUSTOMER).update(
-                balance=F('balance') - balance
-            )
-            CustomUser.objects.select_for_update().filter(
-                role=CustomUser.EXECUTOR).update(
-                balance=F('balance') + balance
-            )
+            if reason == UserChangeBalance.REPLENISH:
+                CustomUser.objects.select_for_update().update(
+                    balance=F('balance') + balance
+                )
+            elif reason == UserChangeBalance.WITHDRAWAL:
+                CustomUser.objects.select_for_update().update(
+                    balance=F('balance') - balance
+                )
 
 
 class UserChangeBalance(models.Model):
@@ -48,8 +50,9 @@ class UserChangeBalance(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
 
 
-
-
+@receiver(post_save, sender=UserChangeBalance)
+def balance_post_save(sender, instance, **kwargs):
+    instance.user.update_balance(instance.amount, instance.reason)
 
 
 
