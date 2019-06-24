@@ -3,7 +3,7 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.contrib.auth import get_user_model
 
-from users.models import UserChangeBalance
+from users.models import Transaction
 
 User = get_user_model()
 
@@ -16,6 +16,7 @@ class Task(models.Model):
     executor = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='executor')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default='', related_name='task')
     finished = models.BooleanField(default=False)
+    accept = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'task'
@@ -24,11 +25,12 @@ class Task(models.Model):
     def __str__(self):
         return self.title
 
-
+'''
 @receiver(post_save, sender=Task)
 def balance_post_save(sender, instance, **kwargs):
     if instance.executor is not None:
         instance.created_by.update_balance(
-            instance.price, UserChangeBalance.TRANSACTION,
+            instance.price, Transaction.TRANSACTION,
             instance.created_by, instance.executor
         )
+'''

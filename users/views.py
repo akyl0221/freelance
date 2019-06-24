@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from .serializers import UserCreateSerializer, CustomUserSerializer, UserLoginSerializer, UserChangeBalanceSerializer
-from .models import UserChangeBalance
+from .models import Transaction
 
 User = get_user_model()
 
@@ -59,6 +59,6 @@ class UserChangeBalanceListView(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return UserChangeBalance.objects.filter(user=user.id)
+        return Transaction.objects.filter(user=user.id)
 
 

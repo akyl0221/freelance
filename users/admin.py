@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import CustomUser, UserChangeBalance
+from .models import CustomUser, Transaction
 
 
 class CustomUserAdmin(admin.ModelAdmin):
@@ -8,8 +8,8 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 
 class UserChangeBalanceAdmin(admin.ModelAdmin):
-    list_display = ('user', 'reason', 'amount', 'datetime', 'to_user')
+    list_display = ('user', 'reason', 'amount', 'datetime',)
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
-admin.site.register(UserChangeBalance, UserChangeBalanceAdmin)
+admin.site.register(Transaction, UserChangeBalanceAdmin)

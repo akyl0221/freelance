@@ -2,13 +2,13 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
 from .models import Task
-from .serializers import TaskCreateSerializer, TaskDetailSerializer, TaskListSerializer
-from .permissions import CreateTask, IsOwnerOrReadOnly, ListTask
+from .serializers import TaskCreateDetailSerializer, TaskListSerializer, TaskAcceptSerializer, TaskDoneSerializer
+from .permissions import CreateTask, IsOwnerOrReadOnly, ListTask, IsExecutorOrReadOnly
 
 
 class TaskCreateView(generics.CreateAPIView):
     queryset = Task.objects.all()
-    serializer_class = TaskCreateSerializer
+    serializer_class = TaskCreateDetailSerializer
     permission_classes = (IsAuthenticated, CreateTask,)
 
 
@@ -20,8 +20,35 @@ class TaskListView(generics.ListAPIView):
 
 class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Task.objects.all()
-    serializer_class = TaskDetailSerializer
-    permission_classes = (IsAuthenticated, CreateTask, IsOwnerOrReadOnly,)
+    serializer_class = TaskListSerializer
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly,)
+
+    def get_serializer_class(self):
+        serializer_class = self.serializer_class
+        if self.request.method == 'PUT':
+            serializer_class = TaskCreateDetailSerializer
+        return serializer_class
 
 
+class TaskAcceptView(generics.RetrieveUpdateAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskListSerializer
+    permission_classes = (IsAuthenticated,)
 
+    def get_serializer_class(self):
+        serializer_class = self.serializer_class
+        if self.request.method == 'PUT':
+            serializer_class = TaskAcceptSerializer
+        return serializer_class
+
+
+class TaskDoneView(generics.RetrieveUpdateAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskListSerializer
+    permission_classes = (IsAuthenticated, IsExecutorOrReadOnly)
+
+    def get_serializer_class(self):
+        serializer_class = self.serializer_class
+        if self.request.method == 'PUT':
+            serializer_class = TaskDoneSerializer
+        return serializer_class
