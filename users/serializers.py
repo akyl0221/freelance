@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 
 from .models import Transaction
 
@@ -7,7 +8,8 @@ User = get_user_model()
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
-
+    email = serializers.EmailField(validators=[UniqueValidator(
+        queryset=User.objects.all(), message='This email is Exist')])
 
     class Meta:
         model = User
