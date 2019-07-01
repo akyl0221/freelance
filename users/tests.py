@@ -108,7 +108,7 @@ class TransactionCreateTest(TestCase):
         )
 
     def transaction_create_test(self):
-        url_task = 'http://127.0.0.1:8000/api/v1/update_balance/'
+        url = 'http://127.0.0.1:8000/api/v1/update_balance/'
         data = {
             'user': self.user1.id,
             'reason': Transaction.REPLENISH,
@@ -119,7 +119,7 @@ class TransactionCreateTest(TestCase):
             'username': 'customer1',
             'password': '123'
         })
-        test = self.client.post(url_task, data)
+        test = self.client.post(url, data)
 
         self.assertEqual(test.status_code,status.HTTP_200_OK)
 
