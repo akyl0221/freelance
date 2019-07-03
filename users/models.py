@@ -1,8 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models, transaction
 from django.db.models import F
-from django.dispatch import receiver
-from django.db.models.signals import post_save
 
 
 class CustomUser(AbstractUser):
@@ -49,11 +47,4 @@ class Transaction(models.Model):
     reason = models.PositiveSmallIntegerField(choices=CHOICES, default=REPLENISH)
     amount = models.DecimalField('Amount', default=0, max_digits=18, decimal_places=6)
     datetime = models.DateTimeField(auto_now_add=True)
-
-
-@receiver(post_save, sender=Transaction)
-def balance_post_save(sender, instance, **kwargs):
-    instance.user.update_balance(instance.amount, instance.reason, instance.user)
-
-
 

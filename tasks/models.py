@@ -24,13 +24,3 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
-
-'''
-@receiver(post_save, sender=Task)
-def balance_post_save(sender, instance, **kwargs):
-    if instance.executor is not None:
-        instance.created_by.update_balance(
-            instance.price, Transaction.TRANSACTION,
-            instance.created_by, instance.executor
-        )
-'''

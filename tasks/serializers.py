@@ -45,17 +45,16 @@ class TaskDoneSerializer(serializers.ModelSerializer):
 
     def task_done(self, instanse):
         if instanse.finished is True:
-            with transaction.atomic():
-                Transaction.objects.create(
-                    user=instanse.created_by, reason=Transaction.WITHDRAWAL,
-                    amount=instanse.price
-                )
-                instanse.created_by.update_balance(instanse.price, Transaction.WITHDRAWAL, instanse.created_by)
-                Transaction.objects.create(
-                    user=instanse.executor, reason=Transaction.REPLENISH,
-                    amount=instanse.price
-                )
-                instanse.executor.update_balance(instanse.price, Transaction.REPLENISH, instanse.created_by)
+            instanse.created_by.update_balance(instanse.price, Transaction.WITHDRAWAL, instanse.created_by)
+            Transaction.objects.create(
+                user=instanse.created_by, reason=Transaction.WITHDRAWAL,
+                amount=instanse.price
+            )
+            instanse.executor.update_balance(instanse.price, Transaction.REPLENISH, instanse.created_by)
+            Transaction.objects.create(
+                user=instanse.executor, reason=Transaction.REPLENISH,
+                amount=instanse.price
+            )
 
     def update(self, instance, validated_data):
         super(TaskDoneSerializer, self).update(instance, validated_data)
