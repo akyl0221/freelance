@@ -35,13 +35,16 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 class UserChangeBalanceSerializer(serializers.ModelSerializer):
 
-    def transaction_added(self, instance):
-        instance.user.update_balance(instance.amount, instance.reason, instance.user)
+    def transaction_added(self, validated_data):
+        user = validated_data.get('user')
+        amount = validated_data.get('amount')
+        reason = validated_data.get('reason')
+        user.update_balance(amount, reason, user)
 
-    def update(self, instance, validated_data):
-        super(UserChangeBalanceSerializer, self).update(instance, validated_data)
-        self.transaction_added(instance)
-        return instance
+    def create(self, validated_data):
+        super(UserChangeBalanceSerializer, self).create(validated_data)
+        self.transaction_added(validated_data)
+        return validated_data
 
 
     class Meta:

@@ -15,5 +15,5 @@ urlpatterns = [
     path('tasks/<int:pk>', TaskDetailView.as_view(), name='tasks_detail'),
     path('tasks/<int:pk>/accept', TaskAcceptView.as_view(), name='tasks_accept'),
     path('tasks/<int:pk>/done', TaskDoneView.as_view(), name='tasks_done'),
-    path('tasks/<int:pk>/done', ExecutorAcceptedView.as_view(), name='executor_tasks'),
+    path('tasks/accepted', ExecutorAcceptedView.as_view(), name='executor_tasks'),
 ]
