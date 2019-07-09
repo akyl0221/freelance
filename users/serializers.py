@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
-from .models import Transaction
+from users.models import Transaction
 
 User = get_user_model()
 

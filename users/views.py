@@ -1,11 +1,15 @@
-from django.contrib.auth import get_user_model , authenticate, login
+from django.contrib.auth import get_user_model, authenticate, login
+from django.db import transaction
 
 from rest_framework import generics, status, views
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from .serializers import UserCreateSerializer, CustomUserSerializer, UserLoginSerializer, UserChangeBalanceSerializer
-from .models import Transaction
+from users.serializers import \
+    (UserCreateSerializer, CustomUserSerializer,
+     UserLoginSerializer, UserChangeBalanceSerializer)
+
+from users.models import Transaction
 
 User = get_user_model()
 
@@ -14,6 +18,7 @@ class UserCreateView(generics.CreateAPIView):
     serializer_class = UserCreateSerializer
     permission_classes = (AllowAny,)
 
+    @transaction.atomic()
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
@@ -48,12 +53,12 @@ class UserDetailView(generics.RetrieveAPIView):
     permission_classes = (IsAuthenticated,)
 
 
-class UserChangeBalanceCreateView(generics.CreateAPIView):
+class TransactionCreateView(generics.CreateAPIView):
     serializer_class = UserChangeBalanceSerializer
     permission_classes = (IsAuthenticated,)
 
 
-class UserChangeBalanceListView(generics.ListAPIView):
+class BalanceHistoryView(generics.ListAPIView):
     serializer_class = UserChangeBalanceSerializer
     permission_classes = (IsAuthenticated,)
 

@@ -1,9 +1,19 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
-from .models import Task
-from .serializers import TaskCreateDetailSerializer, TaskListSerializer, TaskAcceptSerializer, TaskDoneSerializer
-from .permissions import CreateTask, IsOwnerOrReadOnly, ListTask, IsExecutorOrReadOnly
+from tasks.models import Task
+
+from tasks.serializers import \
+    (TaskCreateDetailSerializer,
+     TaskListSerializer,
+     TaskAcceptSerializer,
+     TaskDoneSerializer)
+
+from tasks.permissions import \
+    (CreateTask,
+     IsOwnerOrReadOnly,
+     ListTask,
+     IsExecutorOrReadOnly)
 
 
 class TaskCreateView(generics.CreateAPIView):
@@ -45,10 +55,19 @@ class TaskAcceptView(generics.RetrieveUpdateAPIView):
 class TaskDoneView(generics.RetrieveUpdateAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskListSerializer
-    permission_classes = (IsAuthenticated, IsExecutorOrReadOnly)
+    permission_classes = (IsAuthenticated, )
 
     def get_serializer_class(self):
         serializer_class = self.serializer_class
         if self.request.method == 'PUT':
             serializer_class = TaskDoneSerializer
         return serializer_class
+
+
+class ExecutorAcceptedView(generics.ListAPIView):
+    serializer_class = TaskListSerializer
+    permission_classes = (IsExecutorOrReadOnly, IsAuthenticated)
+
+    def get_queryset(self):
+        user = self.request.user
+        return Task.objects.filter(executor=user.id)

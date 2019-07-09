@@ -1,7 +1,7 @@
 from django.db import transaction
 from rest_framework import serializers
 
-from .models import Task
+from tasks.models import Task
 from users.models import Transaction
 
 
