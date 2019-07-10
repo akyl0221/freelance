@@ -46,7 +46,6 @@ class UserChangeBalanceSerializer(serializers.ModelSerializer):
         self.transaction_added(validated_data)
         return validated_data
 
-
     class Meta:
         model = Transaction
         fields = ('id', 'user', 'reason', 'amount', 'datetime', )
