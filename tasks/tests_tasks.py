@@ -22,13 +22,13 @@ class TaskListTest(TestCase):
             balance=200
         )
 
-    def get_task_list_test_unauthorized(self):
+    def get_task_list_unauthorized_test(self):
         url = 'http://0.0.0.0:8000/api/v1/tasks'
         test = self.client.get(url)
 
         self.assertEqual(test.status_code, status.HTTP_401_UNAUTHORIZED)
 
-    def get_task_list_test_succes(self):
+    def get_task_list_succes_test(self):
         url_tasks = 'http://0.0.0.0:8000/api/v1/tasks'
 
         url_login = 'http://0.0.0.0:8000/api/v1/login'
@@ -93,4 +93,4 @@ class TaskCreateTest(TestCase):
         test = self.client.post(url_task, data)
 
         self.assertEqual(test.status_code, status.HTTP_400_BAD_REQUEST)
-# Create your tests here.
+

@@ -51,7 +51,6 @@ class TaskAcceptView(generics.RetrieveUpdateAPIView):
             serializer_class = TaskAcceptSerializer
         return serializer_class
 
-
 class TaskDoneView(generics.RetrieveUpdateAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskListSerializer
@@ -64,7 +63,7 @@ class TaskDoneView(generics.RetrieveUpdateAPIView):
         return serializer_class
 
 
-class ExecutorAcceptedView(generics.ListAPIView):
+class ExecutorAcceptedTasksView(generics.ListAPIView):
     serializer_class = TaskListSerializer
     permission_classes = (IsExecutorOrReadOnly, IsAuthenticated)
 

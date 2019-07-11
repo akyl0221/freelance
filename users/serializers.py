@@ -26,7 +26,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
         fields = ('username', 'password')
 
 
-class CustomUserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
@@ -35,18 +35,19 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 class UserChangeBalanceSerializer(serializers.ModelSerializer):
 
-    def transaction_added(self, validated_data):
-        user = validated_data.get('user')
-        amount = validated_data.get('amount')
-        reason = validated_data.get('reason')
-        user.update_balance(amount, reason, user)
+    def transfer_execution(self, validated_data):
+        user,  amount, action = \
+            (validated_data.get('user'),
+             validated_data.get('amount'),
+             validated_data.get('action'),)
+        user.update_balance(amount, action, user)
 
     def create(self, validated_data):
         super(UserChangeBalanceSerializer, self).create(validated_data)
-        self.transaction_added(validated_data)
+        self.transfer_execution(validated_data)
         return validated_data
 
     class Meta:
         model = Transaction
-        fields = ('id', 'user', 'reason', 'amount', 'datetime', )
+        fields = ('id', 'user', 'action', 'amount', 'created_time', )
 

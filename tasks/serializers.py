@@ -19,7 +19,7 @@ class TaskListSerializer(serializers.ModelSerializer):
 
 class TaskAcceptSerializer(serializers.ModelSerializer):
 
-    def task_accepted(self, instance, user):
+    def executor_select(self, instance, user):
         with transaction.atomic():
             if instance.accept:
                 executor = instance.executor
@@ -41,23 +41,25 @@ class TaskAcceptSerializer(serializers.ModelSerializer):
 
 class TaskDoneSerializer(serializers.ModelSerializer):
 
-    def task_done(self, instance):
+    def transfer_money(self, instance):
         with transaction.atomic():
             if instance.finished:
                 instance.created_by.update_balance(instance.price, Transaction.WITHDRAWAL, instance.created_by)
                 Transaction.objects.create(
-                    user=instance.created_by, reason=Transaction.WITHDRAWAL,
+                    user=instance.created_by,
+                    action=Transaction.WITHDRAWAL,
                     amount=instance.price
                 )
                 instance.executor.update_balance(instance.price, Transaction.REPLENISH, instance.created_by)
                 Transaction.objects.create(
-                    user=instance.executor, reason=Transaction.REPLENISH,
+                    user=instance.executor, 
+                    action=Transaction.REPLENISH,
                     amount=instance.price
                 )
 
     def update(self, instance, validated_data):
         super(TaskDoneSerializer, self).update(instance, validated_data)
-        self.task_done(instance)
+        self.transfer_money(instance)
         return instance
 
     class Meta:

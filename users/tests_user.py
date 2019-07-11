@@ -34,9 +34,9 @@ class UserListTest(TestCase):
 
 class UserSignUpTest(TestCase):
 
-    def test_sign_up(self):
+    def sign_up_test(self):
         url = 'http://0.0.0.0:8000/api/v1/sign_up'
-        data={
+        data = {
             'username': 'test', 'password': '123',
             'first_name': 'qwerty', 'last_name': 'qwerty',
             'email': 'test@gmail.com', 'role': 1, 'balance': 500
@@ -46,7 +46,7 @@ class UserSignUpTest(TestCase):
 
         self.assertEqual(test.status_code, status.HTTP_201_CREATED)
 
-    def test_sign_up_bad_request(self):
+    def sign_up_bad_request_test(self):
         url = 'http://0.0.0.0:8000/api/v1/sign_up'
         data = {
             'username': 'test',

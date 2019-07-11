@@ -1,6 +1,5 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models, transaction
-from django.db.models import F
 
 
 class CustomUser(AbstractUser):
@@ -23,11 +22,11 @@ class CustomUser(AbstractUser):
         with transaction.atomic():
             if reason is Transaction.REPLENISH:
                 CustomUser.objects.select_for_update().filter(id=user.id).update(
-                    balance=F('balance') + balance
+                    balance=user.balance + balance
                 )
             elif reason is Transaction.WITHDRAWAL:
                 CustomUser.objects.select_for_update().filter(id=user.id).update(
-                    balance=F('balance') - balance
+                    balance=user.balance - balance
                 )
 
 
@@ -44,7 +43,7 @@ class Transaction(models.Model):
         'CustomUser', related_name='balance_changes',
         on_delete=models.CASCADE
     )
-    reason = models.PositiveSmallIntegerField(choices=CHOICES, default=REPLENISH)
+    action = models.PositiveSmallIntegerField(choices=CHOICES, default=REPLENISH)
     amount = models.DecimalField('Amount', default=0, max_digits=18, decimal_places=6)
-    datetime = models.DateTimeField(auto_now_add=True)
+    created_time = models.DateTimeField(auto_now_add=True)
 

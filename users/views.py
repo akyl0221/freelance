@@ -6,7 +6,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from users.serializers import \
-    (UserCreateSerializer, CustomUserSerializer,
+    (UserCreateSerializer, UserSerializer,
      UserLoginSerializer, UserChangeBalanceSerializer)
 
 from users.models import Transaction
@@ -43,13 +43,13 @@ class UserLoginView(views.APIView):
 
 class UserListView(generics.ListAPIView):
     queryset = User.objects.all()
-    serializer_class = CustomUserSerializer
+    serializer_class = UserSerializer
     permission_classes = (IsAuthenticated,)
 
 
 class UserDetailView(generics.RetrieveAPIView):
     queryset = User.objects.all()
-    serializer_class = CustomUserSerializer
+    serializer_class = UserSerializer
     permission_classes = (IsAuthenticated,)
 
 

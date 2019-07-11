@@ -69,7 +69,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'freelance.wsgi.application'
 
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
