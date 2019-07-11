@@ -9,8 +9,7 @@
 <h2>How does it work</h2>
 <p>Clone this repository with command: $git clone https://github.com/akyl0221/freelance.git</p>
 <p>cd freelance</p>
-<p>create file .env and add:</p>
-<p>SECRET_KEY= YourKey</p>
+<p>create file .env and add: SECRET_KEY= YourKey</p>
 <p>python manage.py </p>
 <p>python manage.py runserver</p>
 <h2>Routes</h2>
