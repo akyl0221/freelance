@@ -3,9 +3,11 @@ from rest_framework import serializers
 
 from tasks.models import Task
 from users.models import Transaction
+from users.serializers import UserSerializer
 
 
 class TaskCreateDetailSerializer(serializers.ModelSerializer):
+    executor = UserSerializer(read_only=True)
     class Meta:
         model = Task
         fields = ('id', 'title', 'description', 'price', 'created_time', 'created_by', 'executor')
@@ -31,7 +33,7 @@ class TaskAcceptSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         super(TaskAcceptSerializer, self).update(instance, validated_data)
         user = self.context['request'].user
-        self.task_accepted(instance, user)
+        self.executor_select(instance, user)
         return instance
 
     class Meta:
