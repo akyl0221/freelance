@@ -1,8 +1,8 @@
 <h1>Welcome to Freelance</h1>
 <h2>Requarements</h2>
 <ul>
-  <li>Python v 2.2.2</li>
-  <li>Django v 3.6.8</li>
+  <li>Django v 2.6.2</li>
+  <li>Python v 3.6.8</li>
   <li>Django Rest Framework v 3.9.4</li>
   <li>Python-decouple v 3.1</li>
 </ul>
@@ -11,9 +11,7 @@
 <p>pip install virtualenv<p/>
 <p>python3 -m venv env<p/>
 <p>source env/bin/activate<p/>
-<p>pip install django<p/>
-<p>pip install python-decouple<p/>
-<p>pip install djangorestframework<p/>
+<p>pip install -r requirements.txt<p/>
 <p>cd freelance</p>
 <p>create file .env and add: SECRET_KEY= YourKey</p>
 <p>python manage.py migrate</p>
