@@ -8,6 +8,12 @@
 </ul>
 <h2>How does it work</h2>
 <p>Clone this repository with command: $git clone https://github.com/akyl0221/freelance.git</p>
+<p>pip install virtualenv<p/>
+<p>python3 -m venv env<p/>
+<p>source env/bin/activate<p/>
+<p>pip install django<p/>
+<p>pip install python-decouple<p/>
+<p>pip install djangorestframework<p/>
 <p>cd freelance</p>
 <p>create file .env and add: SECRET_KEY= YourKey</p>
 <p>python manage.py migrate</p>
