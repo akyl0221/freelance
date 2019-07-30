@@ -10,7 +10,7 @@
 <p>Clone this repository with command: $git clone https://github.com/akyl0221/freelance.git</p>
 <p>cd freelance</p>
 <p>create file .env and add: SECRET_KEY= YourKey</p>
-<p>python manage.py </p>
+<p>python manage.py migrate</p>
 <p>python manage.py runserver</p>
 <h2>Routes</h2>
 <p>Sign up: 127.0.0.1:8000/api/v1/sign_up</p>

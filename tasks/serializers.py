@@ -50,7 +50,7 @@ class TaskDoneSerializer(serializers.ModelSerializer):
                     action=Transaction.WITHDRAWAL,
                     amount=instance.price
                 )
-                instance.executor.update_balance(instance.price, Transaction.REPLENISH, instance.created_by)
+                instance.executor.update_balance(instance.price, Transaction.REPLENISH, instance.executor)
                 Transaction.objects.create(
                     user=instance.executor, 
                     action=Transaction.REPLENISH,
