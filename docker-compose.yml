@@ -9,11 +9,11 @@ services:
     environment:
       MYSQL_DATABASE: 'freelance'
       MYSQL_USER: 'kel'
-      MYSQL_PASSWORD: '953741'
-      MYSQL_ROOT_PASSWORD: 'Djakyl98'
+      MYSQL_PASSWORD: 'pass'
+      MYSQL_ROOT_PASSWORD: 'pass'
     restart: always
     ports:
-      - "3302:3306"
+      - 3303:3306
   web:
     build: .
     command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
