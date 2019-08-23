@@ -8,14 +8,9 @@
 </ul>
 <h2>How does it work</h2>
 <p>Clone this repository with command: $git clone https://github.com/akyl0221/freelance.git</p>
-<p>pip install virtualenv<p/>
-<p>python3 -m venv env<p/>
-<p>source env/bin/activate<p/>
-<p>pip install -r requirements.txt<p/>
 <p>cd freelance</p>
 <p>create file .env and add: SECRET_KEY= YourKey</p>
-<p>python manage.py migrate</p>
-<p>python manage.py runserver</p>
+<p>docker-compose up</p>
 <h2>Routes</h2>
 <p>Sign up: 127.0.0.1:8000/api/v1/sign_up</p>
 <p>Login: 127.0.0.1:8000/api/v1/login</p>
