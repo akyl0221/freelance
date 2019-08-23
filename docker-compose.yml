@@ -5,10 +5,10 @@ services:
     image: mysql:5.7
 
     environment:
-      MYSQL_DATABASE: test_freelance
+      MYSQL_DATABASE: freelance
       MYSQL_USER: kel
-      MYSQL_PASSWORD: 953741
-      MYSQL_ROOT_PASSWORD: 953741
+      MYSQL_PASSWORD: pass
+      MYSQL_ROOT_PASSWORD: pass
     restart: always
     expose:
       - "3306"
