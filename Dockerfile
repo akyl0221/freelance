@@ -11,4 +11,3 @@ ADD . /conv/
 RUN pip install --upgrade pip
 RUN pip install -U pipenv
 RUN pipenv install --system
-RUN pip install -r requirements.txt
